@@ -21,7 +21,7 @@ jobs:
 
       - name: Run tests
         run: npm run basic-test
-        continue-on-error: false
+        #continue-on-error: false
 
   build:
     runs-on: ubuntu-latest
