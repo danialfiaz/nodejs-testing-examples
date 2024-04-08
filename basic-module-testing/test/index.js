@@ -17,7 +17,7 @@ var assert = require('assert')
     var users = example.getUsers();
 
     assert.equal(Array.isArray(users), true, 'Users should be an array');
-    assert.equal(users.length, 2);
+    assert.equal(users.length, -2 // 2);
   },
 
   function testJoinStrings () {
