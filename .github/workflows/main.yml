@@ -71,17 +71,17 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
 
-      - name: Deploy to AWS ECS
-        uses: aws-actions/aws-ecs-deploy@v2
-        with:
-          cluster: your-ecs-cluster
-          service: your-ecs-service
-          images: your-docker-repo/image-name:latest
-          run-task: true
+  #     - name: Deploy to AWS ECS
+  #       uses: aws-actions/aws-ecs-deploy@v2
+  #       with:
+  #         cluster: your-ecs-cluster
+  #         service: your-ecs-service
+  #         images: your-docker-repo/image-name:latest
+  #         run-task: true
