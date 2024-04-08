@@ -4,6 +4,8 @@ on:
     types: [opened, closed]
     branches:
       - master
+  merge_group:
+    
 
 jobs:
   test:
