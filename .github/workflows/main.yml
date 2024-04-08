@@ -19,45 +19,16 @@ jobs:
         with:
           node-version: '14'
 
-
       - name: Install dependencies
         run: npm install
 
       - name: Run tests
         run: npm run basic-test
-        #continue-on-error: false
-        
-      # - name: Set status if tests fail
-      #   if: ${{ failure() }}
-      #   uses: actions/github-script@v5
-      #   with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #     script: |
-      #       try {
-      #         github.checks.create({
-      #           owner: context.repo.owner,
-      #           repo: context.repo.repo,
-      #           name: 'Test',
-      #           head_sha: context.sha,
-      #           status: 'completed',
-      #           conclusion: 'failure',
-      #           completed_at: new Date().toISOString(),
-      #           output: {
-      #             title: 'Tests failed',
-      #             summary: 'The test job failed. Please fix the issues before merging.',
-      #           },
-      #         })
-      #       } catch (error) {
-      #         core.setFailed('Failed to create GitHub check status: ' + error.message)
-      #       }
+
   build:
     name: Build Image
     runs-on: ubuntu-latest
-    #needs: test
     if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
-    # permissions:
-    #     # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
-    #   contents: write
     
     steps:
     - name: Check out code
@@ -88,7 +59,6 @@ jobs:
       run: |
         sed -i "s/^  tag:.*/  tag: ${{ github.sha }} /g" templates/values.yaml
         
-    
     - name: Commit and push changes
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
@@ -113,18 +83,3 @@ jobs:
           service: your-ecs-service
           images: your-docker-repo/image-name:latest
           run-task: true
-
-  # merge-check:
-  #   if: github.event_name == 'pull_request' && github.event.action == 'opened'
-  #   needs: test
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Check test status
-  #       run: |
-  #         if [ ${{ job.status }} != 'success' ]; then
-  #           echo "Tests failed. Cannot merge the pull request."
-  #           exit 1
-  #         else
-  #           echo "Tests passed. Ready to merge."
-  #         fi
-
