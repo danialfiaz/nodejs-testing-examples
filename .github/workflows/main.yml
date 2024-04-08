@@ -27,7 +27,7 @@ jobs:
             echo "Tests failed with exit code $exit_code"
             exit $exit_code
           fi
-        #continue-on-error: false
+        # continue-on-error: false
 
 
   build:
