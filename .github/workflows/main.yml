@@ -28,7 +28,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
-    # needs: test
+    needs: test
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -62,16 +62,16 @@ jobs:
           images: your-docker-repo/image-name:latest
           run-task: true
 
-  merge-check:
-    if: github.event_name == 'pull_request' && github.event.action == 'opened'
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check test status
-        run: |
-          if [ ${{ job.status }} != 'success' ]; then
-            echo "Tests failed. Cannot merge the pull request."
-            exit 1
-          else
-            echo "Tests passed. Ready to merge."
-          fi
+  # merge-check:
+  #   if: github.event_name == 'pull_request' && github.event.action == 'opened'
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Check test status
+  #       run: |
+  #         if [ ${{ job.status }} != 'success' ]; then
+  #           echo "Tests failed. Cannot merge the pull request."
+  #           exit 1
+  #         else
+  #           echo "Tests passed. Ready to merge."
+  #         fi
