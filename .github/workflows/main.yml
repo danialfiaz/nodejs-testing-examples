@@ -20,8 +20,15 @@ jobs:
         run: npm install
 
       - name: Run tests
-        run: npm run basic-test
+        run: |
+          npm run basic-test
+          exit_code=$?
+          if [ $exit_code -ne 0 ]; then
+            echo "Tests failed with exit code $exit_code"
+            exit $exit_code
+          fi
         #continue-on-error: false
+
 
   build:
     runs-on: ubuntu-latest
