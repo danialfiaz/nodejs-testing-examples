@@ -6,7 +6,6 @@ on:
       - master
 
 jobs:
-
   test:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' && github.event.action == 'opened'
