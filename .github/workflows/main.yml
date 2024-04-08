@@ -6,7 +6,6 @@ on:
       - master
   merge_group:
     
-
 jobs:
   test:
     runs-on: ubuntu-latest
