@@ -48,6 +48,7 @@ jobs:
             } catch (error) {
               core.setFailed('Failed to create GitHub check status: ' + error.message)
             }
+            
   build:
     name: Build Image
     runs-on: ubuntu-latest
