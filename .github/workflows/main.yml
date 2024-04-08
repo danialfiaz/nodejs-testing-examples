@@ -24,6 +24,26 @@ jobs:
       - name: Run tests
         run: npm run basic-test
         #continue-on-error: false
+        
+      - name: Set status if tests fail
+        if: ${{ failure() }}
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.checks.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: 'Test',
+              head_sha: context.sha,
+              status: 'completed',
+              conclusion: 'failure',
+              completed_at: new Date().toISOString(),
+              output: {
+                title: 'Tests failed',
+                summary: 'The test job failed. Please fix the issues before merging.',
+              },
+            })
 
   build:
     name: Build Image
