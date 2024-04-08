@@ -31,20 +31,23 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            github.checks.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              name: 'Test',
-              head_sha: context.sha,
-              status: 'completed',
-              conclusion: 'failure',
-              completed_at: new Date().toISOString(),
-              output: {
-                title: 'Tests failed',
-                summary: 'The test job failed. Please fix the issues before merging.',
-              },
-            })
-
+            try {
+              github.checks.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: 'Test',
+                head_sha: context.sha,
+                status: 'completed',
+                conclusion: 'failure',
+                completed_at: new Date().toISOString(),
+                output: {
+                  title: 'Tests failed',
+                  summary: 'The test job failed. Please fix the issues before merging.',
+                },
+              })
+            } catch (error) {
+              core.setFailed('Failed to create GitHub check status: ' + error.message)
+            }
   build:
     name: Build Image
     runs-on: ubuntu-latest
